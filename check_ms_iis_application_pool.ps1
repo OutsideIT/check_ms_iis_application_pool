@@ -327,6 +327,7 @@ Function Invoke-CheckIISApplicationPool {
                     $IISStruct.ExitCode = 0
                     $IISStruct.ReturnString = "OK: Application Pool `"$($IISStruct.ApplicationPool)`" with $($IISStruct.SitesCount) Applications. {CPU: $($IISStruct.CurrentCpu) %}{Memory: $($IISStruct.CurrentMemory) MB}"
                     $IISStruct.ReturnString += " | 'pool_cpu'=$($IISStruct.CurrentCpu)%, 'pool_memory'=$($IISStruct.CurrentMemory)MB, 'app_count'=$($IISStruct.SitesCount)"
+					$IISStruct.ReturnString = $IISStruct.ReturnString -replace  ",",";"
                 }
                 Else {
                     If ( $IISStruct.AppPoolOnDemand = 1 ) {
@@ -339,6 +340,7 @@ Function Invoke-CheckIISApplicationPool {
                         $IISStruct.ExitCode = 0
                         $IISStruct.ReturnString = "OK:  Application Pool Started but no process is assigned yet `"$($IISStruct.ApplicationPool)`" with 0 Applications. {CPU: 0%}{Memory: 0MB}"
                         $IISStruct.ReturnString += " | 'pool_cpu'=0%, 'pool_memory'=0MB, 'app_count'=0"
+						$IISStruct.ReturnString = $IISStruct.ReturnString -replace  ",",";"
                     }
                     Else {
                         Throw "Application Pool `"$($IISStruct.ApplicationPool)`" not found in WMI."
@@ -399,7 +401,8 @@ Function Invoke-CheckIISWithAppCmd {
                     $IISStruct.SitesCount = ($Sites,$Apps | ForEach-Object {$_.value}).count
                     $IISStruct.ExitCode = 0
                     $IISStruct.ReturnString = "OK: Application Pool `"$($IISStruct.ApplicationPool)`" with $($IISStruct.SitesCount) Applications. {CPU: $($IISStruct.CurrentCpu) %}{Memory: $($IISStruct.CurrentMemory) MB}"
-                    $IISStruct.ReturnString += " | 'pool_cpu'=$($IISStruct.CurrentCpu)%, 'pool_memory'=$($IISStruct.CurrentMemory)MB, 'app_count'=$($IISStruct.SitesCount)"
+                    $IISStruct.ReturnString += " | 'pool_cpu'=$($IISStruct.CurrentCpu)%; 'pool_memory'=$($IISStruct.CurrentMemory)MB; 'app_count'=$($IISStruct.SitesCount)"
+					$IISStruct.ReturnString = $IISStruct.ReturnString -replace  ",",";"
                 }
                 Else {
                     If ( $IISStruct.AppPoolOnDemand = 1 ) {
@@ -412,6 +415,7 @@ Function Invoke-CheckIISWithAppCmd {
                         $IISStruct.ExitCode = 0
                         $IISStruct.ReturnString = "OK:  Application Pool Started but no process is assigned yet `"$($IISStruct.ApplicationPool)`" with 0 Applications. {CPU: 0%}{Memory: 0MB}"
                         $IISStruct.ReturnString += " | 'pool_cpu'=0%, 'pool_memory'=0MB, 'app_count'=0"
+						$IISStruct.ReturnString = $IISStruct.ReturnString -replace  ",",";"
                     }
                     Else {
                         Throw "Application Pool `"$($IISStruct.ApplicationPool)`" not found in WMI."
